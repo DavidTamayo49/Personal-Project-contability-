@@ -1,11 +1,23 @@
 package com.personal.project.domain;
 
+import jakarta.persistence.*;
+import lombok.Data;
+
 import java.util.UUID;
 
+@Data
+@Entity
+@Table(name = "deudor")
 public class Deudor {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @OneToOne
+    @JoinColumn(name = "cliente")
     private Cliente cliente;
+
     private int valordeuda;
 
 

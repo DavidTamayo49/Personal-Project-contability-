@@ -1,21 +1,41 @@
 package com.personal.project.domain;
 
-import java.util.Date;
+import jakarta.persistence.*;
+import lombok.Data;
 
+import java.util.Date;
+import java.util.UUID;
+
+@Data
+@Entity
+@Table(name = "movimiento")
 public class Movimiento {
 
-    private Cliente cliente;
+   @Id
+   @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
     private Date fecha;
     private String descripcion;
-    private MedioPago medioPago;
     private int valor;
+
+    @OneToOne
+    @JoinColumn(name = "mediopago")
+    private MedioPago medioPago;
+
+    @OneToOne
+    @JoinColumn(name = "tipomovimiento")
     private TipoMovimiento tipoMovimiento;
 
+    @OneToOne
+    @JoinColumn(name = "cliente")
+    private Cliente cliente;
     public Movimiento() {
     }
 
-    public Movimiento(Cliente cliente, Date fecha, String descripcion, MedioPago medioPago,
+    public Movimiento(UUID id, Cliente cliente, Date fecha, String descripcion, MedioPago medioPago,
                       int valor, TipoMovimiento tipoMovimiento) {
+        this.id = id;
         this.cliente = cliente;
         this.fecha = fecha;
         this.descripcion = descripcion;
@@ -71,4 +91,13 @@ public class Movimiento {
     public void setTipoMovimiento(TipoMovimiento tipoMovimiento) {
         this.tipoMovimiento = tipoMovimiento;
     }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
 }
