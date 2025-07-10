@@ -21,19 +21,13 @@ public class AbonoService {
         this.deudorRepository = deudorRepository;
     }
 
-    //Cosultar todos los abonos
-    public List<Abono> findAll() {
-        return abonoRepository.findAll();
-    }
+   //Realizar abono total
 
-    //Consultar abono por id
-    public Optional<Abono> findById(UUID id) {
-        return abonoRepository.findById(id);
-    }
+
+    //Realizar abono parcial
 
 
 
-    //Realizar abono
 
 
 
