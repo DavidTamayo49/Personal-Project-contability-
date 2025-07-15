@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class EmpresaService {
 
     private EmpresaRepository empresaRepository;
-    private static final Pattern EMAIL_PATTERN =
+        private static final Pattern NIT_PATTERN =
             Pattern.compile("^[0-9]{5,10}(-[0-9])?$");
 
     public EmpresaService(EmpresaRepository empresaRepository) {
@@ -35,7 +35,7 @@ public class EmpresaService {
         }
 
         //Formato de nit
-        if (!EMAIL_PATTERN.matcher(empresa.getNit()).matches()) {
+        if (!NIT_PATTERN.matcher(empresa.getNit()).matches()) {
             throw new IllegalArgumentException("El NIT no es valido");
         }
 

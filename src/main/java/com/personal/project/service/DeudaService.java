@@ -61,7 +61,7 @@ public class DeudaService {
 
             deudaRepository.save(debt);
         } else {
-            throw new IllegalArgumentException("El producto no fue encontrado");
+            throw new IllegalArgumentException("Deuda  no fue encontrado");
         }
     }
 
