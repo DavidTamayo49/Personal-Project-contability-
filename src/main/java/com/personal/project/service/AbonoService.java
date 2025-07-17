@@ -21,10 +21,16 @@ public class AbonoService {
         this.deudorRepository = deudorRepository;
     }
 
-   //Realizar abono total
+   //Realizar abono total a la empresa (desde cliente)
 
 
-    //Realizar abono parcial
+    //Realizar abono parcial a la empresa (desde cliente)
+
+
+    //Realizar abono total a proveedor (desde la empresa)
+
+
+    //Realizar abono parcial a proveedor (desde la empresa)
 
 
 

@@ -19,6 +19,9 @@ public class BalanceService {
     //Consultar balance global
 
 
+    //Realizar balance
+
+
 
 
 

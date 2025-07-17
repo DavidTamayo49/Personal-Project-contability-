@@ -21,7 +21,7 @@ public class CiudadController {
     }
 
     @GetMapping
-    private ResponseEntity<List<Ciudad>> findAllCities() {
+    public ResponseEntity<List<Ciudad>> findAllCities() {
         return ResponseEntity.ok(ciudadService.getCities());
     }
 }
