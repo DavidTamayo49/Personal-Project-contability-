@@ -13,7 +13,19 @@ public class Abono {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @OneToOne
+    @JoinColumn(name = "mediopago")
+    private MedioPago mediopago;
     private int valorabono;
+
+    public MedioPago getMediopago() {
+        return mediopago;
+    }
+
+    public void setMediopago(MedioPago mediopago) {
+        this.mediopago = mediopago;
+    }
 
     @ManyToOne
     @JoinColumn(name = "deudor")
@@ -22,10 +34,11 @@ public class Abono {
     public Abono() {
     }
 
-    public Abono(UUID id, Deudor deudor, int valorabono) {
+    public Abono(UUID id, Deudor deudor, int valorabono, MedioPago mediopago) {
         this.id = id;
         this.deudor = deudor;
         this.valorabono = valorabono;
+        this.mediopago = mediopago;
     }
 
     public UUID getId() {

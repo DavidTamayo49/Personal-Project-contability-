@@ -14,6 +14,10 @@ public class MedioPagoService {
 
     MedioPagoRepository medioPagoRepository;
 
+    public MedioPagoService(MedioPagoRepository medioPagoRepository) {
+        this.medioPagoRepository = medioPagoRepository;
+    }
+
     //Consultar medio de pago
     public List<MedioPago> findAllPayMetods() {
         return medioPagoRepository.findAll();
