@@ -5,8 +5,6 @@ import com.personal.project.domain.Deudor;
 import com.personal.project.domain.Movimiento;
 import com.personal.project.domain.TipoMovimiento;
 import com.personal.project.repository.AbonoRepository;
-import com.personal.project.repository.DeudorRepository;
-import com.personal.project.repository.MovimientoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -25,7 +23,6 @@ public class AbonoService {
                         DeudorService deudorService, TipoMovimientoService tipoMovimientoService) {
         this.abonoRepository = abonoRepository;
         this.movimientoService = movimientoService;
-
         this.deudorService = deudorService;
         this.tipoMovimientoService = tipoMovimientoService;
     }
@@ -71,7 +68,7 @@ public class AbonoService {
 
         deudorService.updateDeptor(deudor);
 
-        TipoMovimiento movimientoIngreso = tipoMovimientoService.findTipoMovimientoById(UUID.fromString("f8b1c2d3-4e5f-6a7b-8c9d-e0f1g2h3i4j5"));
+        TipoMovimiento movimientoIngreso = tipoMovimientoService.findTipoMovimientoById(UUID.fromString("bb263257-a81e-4346-b29c-af2e3c64c158"));
 
 
         Movimiento movimiento = new Movimiento();
@@ -100,7 +97,7 @@ public class AbonoService {
         //crear movimiento con all valor que debe
         int valorCompleto = deudor.getValordeuda();
 
-        TipoMovimiento movimientoIngreso = tipoMovimientoService.findTipoMovimientoById(UUID.fromString("f8b1c2d3-4e5f-6a7b-8c9d-e0f1g2h3i4j5"));
+        TipoMovimiento movimientoIngreso = tipoMovimientoService.findTipoMovimientoById(UUID.fromString("bb263257-a81e-4346-b29c-af2e3c64c158"));
 
         Movimiento movimiento = new Movimiento();
         movimiento.setFecha(new Date());
