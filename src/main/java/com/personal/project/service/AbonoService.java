@@ -10,7 +10,6 @@ import com.personal.project.repository.MedioPagoRepository;
 import com.personal.project.repository.MovimientoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 
 import java.util.Date;
 import java.util.UUID;
@@ -109,10 +108,8 @@ public class AbonoService {
         MedioPago medioPago = medioPagoRepository.findById(abono.getMediopago().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Medio de pago no encontrado"));
 
-        MedioPago medioPago = medioPagoRepository.findById(abono.getMediopago().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Medio de pago no encontrado"));
 
-        TipoMovimiento movimientoIngreso = tipoMovimientoService.findTipoMovimientoById(UUID.fromString("bb263257-a81e-4346-b29c-af2e3c64c158"));
+        TipoMovimiento movimientoIngreso = tipoMovimientoService.findTipoMovimientoById(UUID.fromString("ccc4752e-92d0-42d8-934d-56d49f6758b6"));
 
         Movimiento movimiento = new Movimiento();
         movimiento.setFecha(new Date());
