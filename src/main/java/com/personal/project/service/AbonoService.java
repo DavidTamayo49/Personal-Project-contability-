@@ -37,9 +37,10 @@ public class AbonoService {
         this.medioPagoRepository = medioPagoRepository;
     }
 
-    public void validateData(Abono abono) {
+    private void validateData(Abono abono, boolean requireValor) {
+        abono.setId(null);
 
-        if (abono.getValorabono() <= 0) {
+        if (requireValor && abono.getValorabono() <= 0) {
             throw new IllegalArgumentException("El valor del abono debe ser mayor que cero.");
         }
 
@@ -58,7 +59,7 @@ public class AbonoService {
    //Realizar abono parcial a la empresa (desde cliente)
    @Transactional
    public void payDebtParcially(Abono abono) {
-       validateData(abono);
+       validateData(abono, true);
 
        // Recuperar el deudor desde la base de datos
        Deudor deudor = deudorService.findById(abono.getDeudor().getId())
@@ -76,7 +77,7 @@ public class AbonoService {
        deudorService.updateDeptor(deudor);
 
        // Crear y guardar el movimiento
-       TipoMovimiento movimientoIngreso = tipoMovimientoService.findTipoMovimientoById(UUID.fromString("bb263257-a81e-4346-b29c-af2e3c64c158"));
+       TipoMovimiento movimientoIngreso = tipoMovimientoService.findTipoMovimientoById(UUID.fromString("ccc4752e-92d0-42d8-934d-56d49f6758b6"));
        Movimiento movimiento = new Movimiento();
        movimiento.setFecha(new Date());
        movimiento.setDescripcion("Abono realizado por el cliente: " + deudor.getCliente().getNombre());
@@ -94,14 +95,19 @@ public class AbonoService {
 
 
     //Realizar abono total a la empresa (desde cliente)
+    @Transactional
     public void payDebtTotally(Abono abono){
-        validateData(abono);
+        validateData(abono, false);
 
         Deudor deudor = deudorService.findById(abono.getDeudor().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Deudor no encontrado"));
 
         //crear movimiento con all valor que debe
         int valorCompleto = deudor.getValordeuda();
+        abono.setValorabono(valorCompleto);
+
+        MedioPago medioPago = medioPagoRepository.findById(abono.getMediopago().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Medio de pago no encontrado"));
 
         MedioPago medioPago = medioPagoRepository.findById(abono.getMediopago().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Medio de pago no encontrado"));
