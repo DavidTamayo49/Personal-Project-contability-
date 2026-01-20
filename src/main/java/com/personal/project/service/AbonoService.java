@@ -6,8 +6,6 @@ import com.personal.project.domain.MedioPago;
 import com.personal.project.domain.Movimiento;
 import com.personal.project.domain.TipoMovimiento;
 import com.personal.project.repository.AbonoRepository;
-import com.personal.project.repository.MedioPagoRepository;
-import com.personal.project.repository.MovimientoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -18,22 +16,20 @@ import java.util.UUID;
 public class AbonoService {
 
     private AbonoRepository abonoRepository;
-    private MovimientoService movimientoService;
-    private MovimientoRepository movimientoRepository;
     private DeudorService deudorService;
     private TipoMovimientoService tipoMovimientoService;
-    private MedioPagoRepository medioPagoRepository;
+    private MedioPagoService medioPagoService;
+    private MovimientoService movimientoService;
 
 
-    public AbonoService(AbonoRepository abonoRepository, MovimientoService movimientoService, MovimientoRepository movimientoRepository,
+    public AbonoService(AbonoRepository abonoRepository,
                         DeudorService deudorService, TipoMovimientoService tipoMovimientoService,
-                        MedioPagoRepository medioPagoRepository) {
+                        MedioPagoService medioPagoService, MovimientoService movimientoService1) {
         this.abonoRepository = abonoRepository;
-        this.movimientoService = movimientoService;
-        this.movimientoRepository = movimientoRepository;
         this.deudorService = deudorService;
         this.tipoMovimientoService = tipoMovimientoService;
-        this.medioPagoRepository = medioPagoRepository;
+        this.medioPagoService = medioPagoService;
+        this.movimientoService = movimientoService1;
     }
 
     private void validateData(Abono abono, boolean requireValor) {
@@ -64,8 +60,8 @@ public class AbonoService {
        Deudor deudor = deudorService.findById(abono.getDeudor().getId())
                .orElseThrow(() -> new IllegalArgumentException("Deudor no encontrado"));
 
-       MedioPago medioPago = medioPagoRepository.findById(abono.getMediopago().getId())
-               .orElseThrow(() -> new IllegalArgumentException("Medio de pago no encontrado"));
+       MedioPago medioPago = medioPagoService.findById(abono.getMediopago().getId())
+               .orElseThrow(() -> new IllegalArgumentException("Medio de Pago no encontrado"));
 
        // Actualizar la deuda del deudor
        int nuevaDeuda = deudor.getValordeuda() - abono.getValorabono();
@@ -84,7 +80,7 @@ public class AbonoService {
        movimiento.setCliente(deudor.getCliente());
        movimiento.setMedioPago(medioPago);
        movimiento.setTipoMovimiento(movimientoIngreso);
-       movimientoRepository.save(movimiento);
+      movimientoService.saveMovement(movimiento);
 
        abono.setDeudor(deudor);
        abono.setMediopago(medioPago);
@@ -105,8 +101,8 @@ public class AbonoService {
         int valorCompleto = deudor.getValordeuda();
         abono.setValorabono(valorCompleto);
 
-        MedioPago medioPago = medioPagoRepository.findById(abono.getMediopago().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Medio de pago no encontrado"));
+        MedioPago medioPago = medioPagoService.findById(abono.getMediopago().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Medio de Pago no encontrado"));
 
 
         TipoMovimiento movimientoIngreso = tipoMovimientoService.findTipoMovimientoById(UUID.fromString("ccc4752e-92d0-42d8-934d-56d49f6758b6"));
@@ -119,7 +115,7 @@ public class AbonoService {
         movimiento.setMedioPago(medioPago);
         movimiento.setTipoMovimiento(movimientoIngreso);
 
-        movimientoRepository.save(movimiento);
+        movimientoService.saveMovement(movimiento);
 
 
         //Eliminar deudor porque ya no debe nada
