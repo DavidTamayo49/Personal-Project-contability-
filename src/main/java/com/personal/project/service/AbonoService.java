@@ -119,7 +119,7 @@ public class AbonoService {
         movimiento.setMedioPago(medioPago);
         movimiento.setTipoMovimiento(movimientoIngreso);
 
-        movimientoService.saveMovement(movimiento);
+        movimientoRepository.save(movimiento);
 
 
         //Eliminar deudor porque ya no debe nada

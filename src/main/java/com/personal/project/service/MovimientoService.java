@@ -33,9 +33,7 @@ public class MovimientoService {
     //Registrar movimiento
     @Transactional
     public void saveMovement(Movimiento movimiento) {
-        if (movimiento.getId() == null) {
-            movimiento.setId(UUID.randomUUID());
-        }
+
 
         if (movimiento.getFecha() == null || movimiento.getMedioPago() == null || movimiento.getTipoMovimiento() == null
                 || movimiento.getDescripcion() == null || movimiento.getCliente() == null) {
