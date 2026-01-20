@@ -14,7 +14,7 @@ public class Abono {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "mediopago")
     private MedioPago mediopago;
     private int valorabono;
