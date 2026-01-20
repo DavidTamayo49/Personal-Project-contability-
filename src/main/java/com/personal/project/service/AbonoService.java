@@ -109,6 +109,9 @@ public class AbonoService {
         MedioPago medioPago = medioPagoRepository.findById(abono.getMediopago().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Medio de pago no encontrado"));
 
+        MedioPago medioPago = medioPagoRepository.findById(abono.getMediopago().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Medio de pago no encontrado"));
+
         TipoMovimiento movimientoIngreso = tipoMovimientoService.findTipoMovimientoById(UUID.fromString("bb263257-a81e-4346-b29c-af2e3c64c158"));
 
         Movimiento movimiento = new Movimiento();
