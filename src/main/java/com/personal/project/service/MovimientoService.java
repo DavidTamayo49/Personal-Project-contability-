@@ -3,6 +3,7 @@ package com.personal.project.service;
 
 import com.personal.project.domain.Movimiento;
 import com.personal.project.repository.MovimientoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -13,6 +14,10 @@ import java.util.UUID;
 @Service
 public class MovimientoService {
     private MovimientoRepository movimientoRepository;
+
+    public MovimientoService(MovimientoRepository movimientoRepository) {
+        this.movimientoRepository = movimientoRepository;
+    }
 
     //Consultar movimientos
     public List<Movimiento> findAllMovements() {
@@ -26,6 +31,7 @@ public class MovimientoService {
     }
 
     //Registrar movimiento
+    @Transactional
     public void saveMovement(Movimiento movimiento) {
         if (movimiento.getId() == null) {
             movimiento.setId(UUID.randomUUID());

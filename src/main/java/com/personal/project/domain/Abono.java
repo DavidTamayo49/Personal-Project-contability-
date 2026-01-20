@@ -19,13 +19,7 @@ public class Abono {
     private MedioPago mediopago;
     private int valorabono;
 
-    public MedioPago getMediopago() {
-        return mediopago;
-    }
 
-    public void setMediopago(MedioPago mediopago) {
-        this.mediopago = mediopago;
-    }
 
     @ManyToOne
     @JoinColumn(name = "deudor")
@@ -41,6 +35,13 @@ public class Abono {
         this.mediopago = mediopago;
     }
 
+
+
+    public MedioPago getMediopago() {return mediopago;
+    }
+
+    public void setMediopago(MedioPago mediopago) {this.mediopago = mediopago;
+    }
     public UUID getId() {
         return id;
     }

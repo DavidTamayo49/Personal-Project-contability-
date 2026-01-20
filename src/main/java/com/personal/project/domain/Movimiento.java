@@ -19,19 +19,22 @@ public class Movimiento {
     private String descripcion;
     private int valor;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "mediopago")
     private MedioPago medioPago;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "tipomovimiento")
     private TipoMovimiento tipoMovimiento;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "cliente")
     private Cliente cliente;
     public Movimiento() {
     }
+
+    @Version
+    private int version;
 
     public Movimiento(UUID id, Cliente cliente, Date fecha, String descripcion, MedioPago medioPago,
                       int valor, TipoMovimiento tipoMovimiento) {
