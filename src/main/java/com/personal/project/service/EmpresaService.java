@@ -13,11 +13,12 @@ import java.util.regex.Pattern;
 public class EmpresaService {
 
     private EmpresaRepository empresaRepository;
-        private static final Pattern NIT_PATTERN =
-            Pattern.compile("^[0-9]{5,10}(-[0-9])?$");
+    private static final Pattern NIT_PATTERN = Pattern.compile("^[0-9]{5,10}(-[0-9])?$");
+    private CiudadService ciudadService;
 
-    public EmpresaService(EmpresaRepository empresaRepository) {
+    public EmpresaService(EmpresaRepository empresaRepository, CiudadService ciudadService) {
         this.empresaRepository = empresaRepository;
+        this.ciudadService = ciudadService;
     }
 
     //Consultar empresa
@@ -39,16 +40,12 @@ public class EmpresaService {
             throw new IllegalArgumentException("El NIT no es valido");
         }
 
-        //Si el id esta vacio asiganr
-        if (empresa.getId() == null){
-            empresa.setId(UUID.randomUUID());
+
+        if (empresa.getCiudad() == null || empresa.getCiudad().getId() == null) {
+            throw new IllegalArgumentException("La ciudad debe ser obligatoria");
         }
 
-        //Que la ciudad no este vacio
-        if (empresa.getCiudad() == null){
-            throw new IllegalArgumentException("La ciudad debe ser obligatoria ");
-        }
-
+        empresa.setCiudad(ciudadService.findById(empresa.getCiudad().getId()));
 
         empresaRepository.save(empresa);
     }

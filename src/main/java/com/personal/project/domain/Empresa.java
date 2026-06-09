@@ -40,6 +40,7 @@ public class Empresa {
         this.id = id;
         this.nit = nit;
         this.nombre = nombre;
+        this.ciudad = ciudad;
     }
 
     public UUID getId() {

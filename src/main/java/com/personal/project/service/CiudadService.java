@@ -5,6 +5,7 @@ import com.personal.project.repository.CiudadRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CiudadService {
@@ -19,5 +20,10 @@ public class CiudadService {
     public List<Ciudad> getCities() {
         return ciudadRepository.findAll();
     }
+
+    public Ciudad findById(UUID id) {
+    return ciudadRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("La ciudad no existe"));
+}
 
 }
