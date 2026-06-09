@@ -23,10 +23,6 @@ public class ClienteService {
     //Registar cliente
     public void saveClient(Cliente cliente) {
 
-        if (cliente.getId() == null){
-            cliente.setId(UUID.randomUUID());
-        }
-
         if (cliente.getNombre() == null || cliente.getCorreo() == null || cliente.getDocumento() == null){
             throw new IllegalArgumentException("Todos los campos son obligatorios");
         }

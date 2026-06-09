@@ -37,11 +37,15 @@ public class BalanceService {
         return balances.getOrDefault(nombreMedioPago, 0.0);
     }
 
+
+
     //Consultar balance global
     public double getGlobalBalance() {
         return makeGlobalBalance();
     }
 
+
+    //TODO la lista debe ser dinamica, los medios de pago deben ser consultados desde el service MedioPago
     //Realizar balance por medio de pago
      public Map<String, Double> makeBalanceByPayMethod() {
          String[] mediosDePago = {"Nequi", "Efectivo", "Transferencia Bancaria", "Tarjeta"};

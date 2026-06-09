@@ -1,4 +1,4 @@
 1. Eliminar generacion de UUID en service para dejar que hibernate los genere automaticamente
 y no tener problemas de generacion doble
 
-2. seguir con repositories basicos
+2. seguir con controllers basicos

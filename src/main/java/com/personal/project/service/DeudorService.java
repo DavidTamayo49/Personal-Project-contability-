@@ -21,9 +21,6 @@ public class DeudorService {
     //Registrar Deudor
     public void saveDeptor(Deudor deptor){
 
-        if(deptor.getId() == null){
-            deptor.setId(UUID.randomUUID());
-        }
 
         if(deptor.getCliente() == null || deptor.getCliente().getId() == null){
             throw new IllegalArgumentException("Todos los campos son obligatorios");
@@ -59,9 +56,10 @@ public class DeudorService {
 
 
     //Consultar deudor por id
-    public Optional<Deudor> findById(UUID id) {
+    public Optional <Deudor> findById(UUID id) {
         return deudorRepository.findById(id);
     }
+
 
     //Eliminar deudor
     public void deleteDebtor(UUID uuid) {

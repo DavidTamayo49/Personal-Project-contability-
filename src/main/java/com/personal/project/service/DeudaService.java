@@ -16,6 +16,9 @@ public class DeudaService {
     private ProveedorRepository proveedorRepository;
 
 
+
+
+
     //Consultar las deudas
     public List<Deuda> findAllDebts() {
         return deudaRepository.findAll();
@@ -30,10 +33,7 @@ public class DeudaService {
     //Registrar deuda
     public void saveDebt(Deuda deuda) {
 
-        //Asignar id si no tiene uno ya asignado
-        if (deuda.getId() == null) {
-            deuda.setId(UUID.randomUUID());
-        }
+
 
         //Verificar que si exista el proveedor al cual se le debe
         if (!proveedorRepository.existsById(deuda.getProveedor().getId())) {
@@ -61,12 +61,13 @@ public class DeudaService {
 
             deudaRepository.save(debt);
         } else {
-            throw new IllegalArgumentException("Deuda  no fue encontrado");
+            throw new IllegalArgumentException("Deuda  no fue encontrada");
         }
     }
 
     //Pagar deuda
     //TODO PENDIENTE DEBIDO A QUE NECESITAMOS PRIMERO EL MOVIMIENTO SERVICE, PORQUE HAY QUE CREAR UN MOVIMIENTO CON EL VALOR DE LA DEUDA
+
 
 
 

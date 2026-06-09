@@ -23,10 +23,11 @@ public class ProveedorService {
         this.proveedorRepository = proveedorRepository;
     }
 
-    //Consultar proveedor
+    //Consultar proveedores
     public List<Proveedor> getProviders() {
         return proveedorRepository.findAll();
     }
+
 
     //Eliminar proveedor
     public void deleteProvider(UUID uuid) {
@@ -46,10 +47,7 @@ public class ProveedorService {
             throw new IllegalArgumentException("El NIT no es valido");
         }
 
-        //Si el id esta vacio asignar uno
-        if (proveedor.getId() == null){
-            proveedor.setId(UUID.randomUUID());
-        }
+
 
         //Que la ciudad no este vacio
         if (proveedor.getCiudad() == null){
