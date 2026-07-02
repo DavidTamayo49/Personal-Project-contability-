@@ -29,7 +29,7 @@ public class EmpresaController {
              e.printStackTrace();
              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(Map.of("mensaje", e.getMessage()));
-}
+        }
     }
 
     //Consultar informacion de la empresa
@@ -40,7 +40,19 @@ public class EmpresaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-
+    //Modificar empresa
+    @PutMapping("/modificar-empresa")
+    public ResponseEntity<Object> updateEnterprise(@RequestBody Empresa empresa) {
+        try {
+            empresaService.updateEnterprise(empresa);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(Map.of("mensaje", "Empresa modificada exitosamente"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("mensaje", e.getMessage()));
+        }
+    }
 
 }
 
