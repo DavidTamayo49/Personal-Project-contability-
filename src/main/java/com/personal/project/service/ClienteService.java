@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 @Service
@@ -61,6 +62,11 @@ public class ClienteService {
     //Consultar los clientes
     public List<Cliente> findAllClients() {
         return clienteRepository.findAll();
+    }
+
+    //Consultar cliente por id
+    public Optional<Cliente> findClientById(UUID id) {
+        return clienteRepository.findById(id);
     }
     
     //Modificar cliente

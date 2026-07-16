@@ -2,6 +2,7 @@ package com.personal.project.service;
 
 
 
+import com.personal.project.domain.Cliente;
 import com.personal.project.domain.Deudor;
 import com.personal.project.repository.DeudorRepository;
 import org.springframework.stereotype.Service;
@@ -12,38 +13,59 @@ import java.util.UUID;
 
 @Service
 public class DeudorService {
-    private DeudorRepository deudorRepository;
+    private final DeudorRepository deudorRepository;
+    private final ClienteService clienteService;
 
-    public DeudorService(DeudorRepository deudorRepository) {
+    public DeudorService(DeudorRepository deudorRepository, ClienteService clienteService) {
         this.deudorRepository = deudorRepository;
+        this.clienteService = clienteService;
+    }
+
+    private void validateDebtor(Deudor deptor) {
+        if (deptor.getCliente() == null || deptor.getCliente().getId() == null) {
+            throw new IllegalArgumentException("El cliente es obligatorio");
+        }
+
+        if (deptor.getValordeuda() <= 0) {
+            throw new IllegalArgumentException("El valor de la deuda debe ser mayor que cero");
+        }
     }
 
     //Registrar Deudor
     public void saveDeptor(Deudor deptor){
+        validateDebtor(deptor);
 
+        Cliente cliente = clienteService.findClientById(deptor.getCliente().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Cliente no fue encontrado"));
 
-        if(deptor.getCliente() == null || deptor.getCliente().getId() == null){
-            throw new IllegalArgumentException("Todos los campos son obligatorios");
-        }
-
+        deptor.setCliente(cliente);
         deudorRepository.save(deptor);
 
     }
 
     //Modificar deudor
     public void updateDeptor(Deudor newDeptor) {
+        if (newDeptor.getId() == null) {
+            throw new IllegalArgumentException("El id del deudor es obligatorio");
+        }
+
         Optional<Deudor> deptorOptional = deudorRepository.findById(newDeptor.getId());
 
         if (deptorOptional.isPresent()) {
+            validateDebtor(newDeptor);
+
+            Cliente cliente = clienteService.findClientById(newDeptor.getCliente().getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Cliente no fue encontrado"));
+
             Deudor deptor = deptorOptional.get();
-            deptor.setCliente(newDeptor.getCliente());
+            deptor.setCliente(cliente);
             deptor.setValordeuda(newDeptor.getValordeuda());
 
             deudorRepository.save(deptor);
 
 
         } else {
-            throw new IllegalArgumentException("Cliente no fue encontrado");
+            throw new IllegalArgumentException("Deudor no fue encontrado");
         }
     }
 
@@ -63,7 +85,7 @@ public class DeudorService {
 
     //Eliminar deudor
     public void deleteDebtor(UUID uuid) {
-        deudorRepository.findById(uuid).orElseThrow(() -> new IllegalArgumentException("La oferta que deseas eliminar no existe o ya ha sido eliminada"));
+        deudorRepository.findById(uuid).orElseThrow(() -> new IllegalArgumentException("El deudor que deseas eliminar no existe o ya ha sido eliminado"));
         deudorRepository.deleteById(uuid);
     }
 }
