@@ -43,6 +43,10 @@ public class ProveedorService {
         return proveedorRepository.findAll();
     }
 
+    public Optional<Proveedor> findProviderById(UUID id) {
+        return proveedorRepository.findById(id);
+    }
+
 
     //Eliminar proveedor
     public void deleteProvider(UUID uuid) {

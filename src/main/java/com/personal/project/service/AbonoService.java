@@ -97,7 +97,7 @@ public class AbonoService {
         Deudor deudor = deudorService.findById(abono.getDeudor().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Deudor no encontrado"));
 
-        //crear movimiento con all valor que debe
+        // Crear el movimiento con el valor total que debe.
         int valorCompleto = deudor.getValordeuda();
         abono.setValorabono(valorCompleto);
 
@@ -117,15 +117,18 @@ public class AbonoService {
 
         movimientoService.saveMovement(movimiento);
 
+        UUID deudorId = deudor.getId();
 
-        //Eliminar deudor porque ya no debe nada
-        deudorService.deleteDebtor(abono.getDeudor().getId());
-
-        abono.setDeudor(deudor);
+        // El movimiento conserva la relacion con el cliente. El abono total se
+        // guarda sin una FK al deudor para permitir eliminarlo al quedar saldado.
+        abono.setDeudor(null);
         abono.setMediopago(medioPago);
+        abonoRepository.saveAndFlush(abono);
 
-        // Guardar el abono
-        abonoRepository.save(abono);
+        // Los abonos parciales anteriores tambien referencian al deudor. Se
+        // desvinculan antes de eliminarlo para no violar la clave foranea.
+        abonoRepository.removeDeudorReferences(deudorId);
+        deudorService.deleteDebtor(deudorId);
 
     }
 

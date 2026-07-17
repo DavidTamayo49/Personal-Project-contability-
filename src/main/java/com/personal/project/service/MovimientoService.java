@@ -96,6 +96,28 @@ public class MovimientoService {
         movimientoRepository.save(movimiento);
     }
 
+    public void saveProviderDebtPayment(String providerName, int value, UUID payMethodId) {
+        if (providerName == null || providerName.isBlank()) {
+            throw new IllegalArgumentException("El nombre del proveedor es obligatorio");
+        }
+
+        if (value <= 0) {
+            throw new IllegalArgumentException("El valor del movimiento debe ser mayor a 0");
+        }
+
+        MedioPago medioPago = medioPagoService.findById(payMethodId)
+                .orElseThrow(() -> new IllegalArgumentException("Medio de pago no fue encontrado"));
+        TipoMovimiento egreso = tipoMovimientoService.findTipoMovimientoByName("egreso");
+
+        Movimiento movimiento = new Movimiento();
+        movimiento.setFecha(new Date());
+        movimiento.setDescripcion("Deuda pagada a proveedor: " + providerName);
+        movimiento.setValor(value);
+        movimiento.setMedioPago(medioPago);
+        movimiento.setTipoMovimiento(egreso);
+        movimientoRepository.save(movimiento);
+    }
+
     // Actualizar movimiento
     public void updateMovement(Movimiento newMovement) {
         if (newMovement.getId() == null) {

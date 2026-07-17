@@ -26,4 +26,10 @@ public class TipoMovimientoService {
                 .orElseThrow(() -> new IllegalArgumentException("Tipo de movimiento no encontrado"));
     }
 
+    public TipoMovimiento findTipoMovimientoByName(String nombre) {
+        return tipoMovimientoRepository.findByNombreIgnoreCase(nombre)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "El tipo de movimiento " + nombre + " no fue encontrado"));
+    }
+
 }
